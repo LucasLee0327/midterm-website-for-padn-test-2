@@ -1,12 +1,12 @@
 import express from "express";
 import {glob} from "glob";
 import users from "./api/v1/users/index.js";
-//import csrf from "./api/v1/csrf-token";
+import csrfToken from "./api/v1/csrf-token/index.js";
 
 const rootRouter = express.Router();
 
 rootRouter.use("/api/v1/users", users)
-//rootRouter.use("/api/v1/csrf-token", )
+rootRouter.use("/api/v1/csrf-token", csrfToken)
 
 export default rootRouter;
 
