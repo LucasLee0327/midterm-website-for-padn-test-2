@@ -3,6 +3,9 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
+import myicon from "./pikachu.png"
+import homegif from "./starburst-yay.gif"
+
 const navigation = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
@@ -37,12 +40,12 @@ export default function RootLayout() {
                   <div className="flex flex-shrink-0 items-center">
                     <img
                       className="block h-8 w-auto lg:hidden"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                      src={myicon}
                       alt="Your Company"
                     />
                     <img
                       className="hidden h-8 w-auto lg:block"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                      src={myicon}
                       alt="Your Company"
                     />
                   </div>
@@ -83,7 +86,7 @@ export default function RootLayout() {
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          src={myicon}
                           alt=""
                         />
                       </Menu.Button>
@@ -182,11 +185,11 @@ export function RootIndex() {
   return (
     <div className="my-16">
       <div className="flex justify-center my-4">
-        <h1 className="text-4xl block">Welcome</h1>
+        <h1 className="text-4xl block">Lucas Lee's Website</h1>
       </div>
       <div className="flex justify-center">
-        <a href="https://youtu.be/dQw4w9WgXcQ" target="_blank">
-          <img src="/vite.svg" className="w-52 logo" />
+        <a href="https://www.youtube.com/watch?v=yQgN0A0WCzE" target="_blank">
+          <img src={homegif} className="w-52 logo" />
         </a>
       </div>
     </div>

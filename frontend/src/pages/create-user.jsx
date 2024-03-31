@@ -5,7 +5,7 @@ import services from "../services";
 // you should design your register page and api
 function CreateUserPage() {
   const [formData, setFormData] = useState({ username: "" });
-  const [message, setMessage] = useState("User created!");
+  const [message, setMessage] = useState("");
 
   /** @type {React.ChangeEventHandler<HTMLInputElement>} */
   const handleTextInputChange = ({ target: { name, value } }) => {
