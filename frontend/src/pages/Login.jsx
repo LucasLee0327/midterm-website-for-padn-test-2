@@ -4,6 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext, AuthProvider } from '../AuthContext';
 
 function LoginPage() {
+
+    const authContext = useContext(AuthContext);
+    const isLoggedIn = authContext? authContext.isLoggedIn : false
+
     const navigate = useNavigate();
     const { login } = useContext(AuthContext);
     const [credential, setCredential] = useState({ username: "", password: ""});
@@ -27,7 +31,12 @@ function LoginPage() {
         };
         try {
             await login(credentials);
-            navigate('/');
+            if (isLoggedIn) {
+                navigate('/');
+            } else {
+                setError("Invalid username or password!");
+            }
+            // navigate('/');
         } catch(error) {
             setError("Invalid username or password!");
         }
