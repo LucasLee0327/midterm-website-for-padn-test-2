@@ -1,12 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import { AuthProvider } from './AuthContext';
 import RootLayout, { RootIndex } from "./pages";
 import About from "./pages/about";
 import "./index.css";
-import UserPage from "./pages/users";
-import CreateUserPage from "./pages/create-user";
+import Chatboard from "./pages/Chatboard";
+import LoginPage from "./pages/Login";
+import SignUpPage from "./pages/signup";
 import ErrorPage from "./pages/error-page";
+import MyProfilePage from "./pages/myprofile";
+import LogoutPage from "./pages/logout";
 
 const router = createBrowserRouter([
   {
@@ -20,19 +25,33 @@ const router = createBrowserRouter([
         element: <About />,
       },
       {
-        path: "/users",
-        element: <UserPage />,
+        path: "/Chatboard",
+        element: <Chatboard />,
       },
       {
-        path: "/create-user",
-        element: <CreateUserPage />,
+        path: "/Login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/signup",
+        element: <SignUpPage />,
+      },
+      {
+        path: "/myprofile",
+        element: <MyProfilePage />,
+      },
+      {
+        path: "/logout",
+        element: <LogoutPage />,
       },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
+  <React.StrictMode>   
+    <AuthProvider>
+      <RouterProvider router={router}/>
+    </AuthProvider> 
   </React.StrictMode>
 );

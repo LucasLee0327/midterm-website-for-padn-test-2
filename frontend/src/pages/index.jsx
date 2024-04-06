@@ -1,25 +1,40 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { Fragment } from "react";
+import React, { useContext } from 'react'
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-
+import { AuthContext } from '../AuthContext';
 import myicon from "./pikachu.png"
 import homegif from "./starburst-yay.gif"
 
-const navigation = [
-  { name: "Home", href: "/" },
-  { name: "About", href: "/about" },
-  { name: "Users", href: "/users" },
-  { name: "Create User", href: "/create-user" },
-];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function RootLayout() {
+  const authContext = useContext(AuthContext);
+  const isLoggedIn = authContext? authContext.isLoggedIn : false
+  const navigation = isLoggedIn
+  ? [
+      { name: 'Home', href: '/' },
+      { name: 'About', href: '/about' },
+      { name: 'Chatboard', href: '/Chatboard' },
+      { name: 'myprofile', href: '/myprofile'},
+      { name: 'logout', href: '/logout'}
+      // 其他已登入後需要顯示的連結
+    ]
+  : [
+      { name: 'Home', href: '/' },
+      { name: 'About', href: '/about' },
+      { name: 'Chatboard', href: '/Chatboard' },
+      { name: 'Login', href: '/Login' },
+      { name: 'Sign up', href: '/Signup' },
+      // 其他未登入時需要顯示的連結
+    ];
+
   return (
-    <div>
+    <div>    
       <Disclosure as="nav" className="bg-gray-800">
         {({ open }) => (
           <>
@@ -176,7 +191,7 @@ export default function RootLayout() {
       </Disclosure>
       <div>
         <Outlet />
-      </div>
+      </div>   
     </div>
   );
 }

@@ -1,17 +1,16 @@
-import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
 import services from "../services";
 
 // you should design your register page and api
-function CreateUserPage() {
-  const [formData, setFormData] = useState({ username: "" });
+function SignUpPage() {
+  const [account, setAccount] = useState({ username: "", password: ""});
   const [message, setMessage] = useState("");
 
   /** @type {React.ChangeEventHandler<HTMLInputElement>} */
   const handleTextInputChange = ({ target: { name, value } }) => {
     // const { name, value } = event.target
     // obj = { ...prev }; obj[name] = value
-    setFormData((prev) => ({
+    setAccount((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -19,10 +18,10 @@ function CreateUserPage() {
 
   /** @type {React.FormEventHandler<HTMLFormElement>} */
   const handleFormSubmit = (event) => {
-    services.user.createOne({ name: formData.username }).then((data) => {
-      setMessage(JSON.stringify(data, null, 2));
+    services.user.createOne({ username: account.username, password: account.password }).then((data) => {
+      setMessage("Account created!");
     });
-    setFormData({ username: "" });
+    setAccount({ username: "", password: "" });
     event.preventDefault();
   };
 
@@ -45,7 +44,7 @@ function CreateUserPage() {
               alt="Your Company"
             />
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-              Create an account
+              Sign up
             </h2>
           </div>
           <form className="mt-8 space-y-6" onSubmit={handleFormSubmit}>
@@ -60,7 +59,19 @@ function CreateUserPage() {
                   required
                   className="relative block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Username"
-                  value={formData.username}
+                  value={account.username}
+                  onChange={handleTextInputChange}
+                />
+                <label htmlFor="username" className="sr-only">
+                  Password
+                </label>
+                <input
+                  name="password"
+                  type="password"
+                  required
+                  className="relative block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="Password"
+                  value={account.password}
                   onChange={handleTextInputChange}
                 />
               </div>
@@ -71,13 +82,7 @@ function CreateUserPage() {
                 type="submit"
                 className="group relative flex w-full justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <LockClosedIcon
-                    className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                    aria-hidden="true"
-                  />
-                </span>
-                Create
+                Create Account
               </button>
             </div>
           </form>
@@ -88,4 +93,4 @@ function CreateUserPage() {
   );
 }
 
-export default CreateUserPage;
+export default SignUpPage;

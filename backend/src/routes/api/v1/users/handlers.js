@@ -10,7 +10,14 @@ export async function getAllUsers(req, res) {
  * @param {import('express').Response} res
  */
 export async function createOneUser(req, res) {
-  const user = await prisma.user.create({ data: { name: req.body.name } });
+  const { username, password } = req.body;
+
+  const user = await prisma.user.create({
+    data: {
+      username: username,
+      password: password,
+    },
+  });
   return res.status(201).json(user);
 }
 
@@ -19,10 +26,11 @@ export async function createOneUser(req, res) {
  * @param {import('express').Response} res
  */
 export async function getOneUser(req, res) {
-  console.log("hello");
   const id = parseInt(req.params.id);
   if (isNaN(id)) return res.status(400).json({ error: "Invalid id" });
   const user = await prisma.user.findUnique({ where: { id } });
   if (user === null) return res.status(404).json({ error: "Not Found" });
   return res.json(user);
 }
+
+

@@ -5,8 +5,8 @@ export const user = {
     const { data } = await api.get("/users");
     return data;
   },
-  async createOne({ name }) {
-    const { data } = await api.post("/users", { name });
+  async createOne({ username, password }) {
+    const { data } = await api.post("/users", { username, password });
     return data;
-  },
+  }
 };
