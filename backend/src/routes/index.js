@@ -3,7 +3,7 @@ import {glob} from "glob";
 import users from "./api/v1/users/index.js";
 import csrfToken from "./api/v1/csrf-token/index.js";
 import isLoggedIn from "./api/v1/login/index.js";
-import sessionStatus from "./api/v1/session/index.js"
+import sessionStatus from "./api/v1/session/index.js";
 
 const rootRouter = express.Router();
 

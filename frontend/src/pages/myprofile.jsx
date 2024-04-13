@@ -8,21 +8,26 @@ function myprofile() {
   const [avatar, setAvatar] = useState('');
 
   useEffect(() => {
-    // 從 session 中獲取用戶名稱
-    const usernameFromSession = sessionStorage.getItem('username');
-    setUsername(usernameFromSession);
-
-    // 在組件加載時從後端加載用戶資料
     async function fetchUserData() {
       try {
-        const userData = await services.user.getOne(usernameFromSession);
+        // 从服务器获取当前用户的用户名
+        const response = await services.user.getName();
+        if (response) {
+          const name = response.Username;
+          setUsername(name);
+        } else {
+          console.error('Error fetching user data: Invalid response format');
+        }
+
+        // 使用用户名从服务器获取用户的详细信息，包括头像
+        const userData = await services.user.getOne(username);
         setAvatar(userData.avatar);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     }
 
-    // 加載用戶資料
+    // 加载用户数据
     fetchUserData();
   }, []);
 
@@ -41,7 +46,7 @@ function myprofile() {
     reader.onload = async (event) => {
       const base64Image = event.target.result;
       try {
-        await services.user.uploadImage({ username, avatar: base64Image });
+        await services.user.uploadImage({ avatar: base64Image });
         // Handle success
         console.log('Image uploaded successfully.');
         // 更新頭像

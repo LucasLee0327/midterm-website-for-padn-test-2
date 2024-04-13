@@ -4,6 +4,6 @@ import { getAllUsers, getOneUser, createOneUser, uploadAvatar } from "./handlers
 const router = Router();
 router.get('/', getAllUsers);
 router.post('/', createOneUser);
-router.get('/:username', getOneUser);
-router.post('/:username', uploadAvatar);
+router.get('/profile', getOneUser);
+router.post('/profile', uploadAvatar);
 export default router;

@@ -9,12 +9,16 @@ export const user = {
     const { data } = await api.post("/users", { username, password, avatar });
     return data;
   },
-  async getOne( { username } ) {
-    const { data } = await api.get(`/users/${username}`);
+  async getOne() {
+    const { data } = await api.get("/users/profile");
     return data;
   },
-  async uploadImage({ username, avatar }){
-    const { data } = await api.post(`/users/${username}`, { avatar });
+  async getName() {
+    const { data } = await api.get("/session/username");
+    return data;
+  },
+  async uploadImage({ avatar }){
+    const { data } = await api.post("/users/profile", { avatar });
     return data;
   }
 };

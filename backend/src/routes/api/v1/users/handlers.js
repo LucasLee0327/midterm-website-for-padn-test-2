@@ -29,7 +29,7 @@ export async function createOneUser(req, res) {
 export async function getOneUser(req, res) {
   const username = req.session.username;
   if (!username) return res.status(400).json({ error: "Invalid username" });
-  const user = await prisma.user.findUnique({ where: { username } });
+  const user = await prisma.user.findUnique({ where: { username: username } });
   if (user === null) return res.status(404).json({ error: "Not Found" });
   return res.json(user);
 }

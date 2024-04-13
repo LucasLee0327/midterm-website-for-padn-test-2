@@ -10,7 +10,7 @@ function SignUpPage() {
 
   useEffect(() => {
     // 取得 default-picture.jpg 並轉換為 Blob 對象
-    fetch("./default-picture.jpg")
+    fetch(defPic)
       .then((response) => response.blob())
       .then((blob) => {
         // 將 Blob 轉換為 base64 格式
