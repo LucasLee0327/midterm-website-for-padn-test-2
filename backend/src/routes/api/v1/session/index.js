@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { logoutCheck } from "./handlers.js";
+import { statusCheck } from "./handlers.js";
 
 const router = Router();
-router.post('/', logoutCheck);
+router.get('/', statusCheck);
 export default router;

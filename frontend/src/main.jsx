@@ -8,7 +8,7 @@ import About from "./pages/about";
 import "./index.css";
 import Chatboard from "./pages/Chatboard";
 import LoginPage from "./pages/Login";
-import SignUpPage from "./pages/signup";
+import SignUpPage from "./pages/Signup";
 import ErrorPage from "./pages/error-page";
 import MyProfilePage from "./pages/myprofile";
 import LogoutPage from "./pages/logout";

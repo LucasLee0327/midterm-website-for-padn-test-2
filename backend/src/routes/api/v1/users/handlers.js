@@ -10,12 +10,13 @@ export async function getAllUsers(req, res) {
  * @param {import('express').Response} res
  */
 export async function createOneUser(req, res) {
-  const { username, password } = req.body;
+  const { username, password, avatar } = req.body;
 
   const user = await prisma.user.create({
     data: {
       username: username,
       password: password,
+      avatar: avatar
     },
   });
   return res.status(201).json(user);
@@ -26,11 +27,46 @@ export async function createOneUser(req, res) {
  * @param {import('express').Response} res
  */
 export async function getOneUser(req, res) {
-  const id = parseInt(req.params.id);
-  if (isNaN(id)) return res.status(400).json({ error: "Invalid id" });
-  const user = await prisma.user.findUnique({ where: { id } });
+  const username = req.session.username;
+  if (!username) return res.status(400).json({ error: "Invalid username" });
+  const user = await prisma.user.findUnique({ where: { username } });
   if (user === null) return res.status(404).json({ error: "Not Found" });
   return res.json(user);
 }
 
+/**
+ * 上傳使用者頭像
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
+export async function uploadAvatar(req, res) {
+  try {
+    const base64Image = req.body.avatar;
+    const username = req.session.username;
+
+    if (!username) {
+      return res.status(401).json({ message: 'User not authenticated.' });
+    }
+
+    const user = await prisma.user.findUnique({ where: { username: username } });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    // 更新使用者的圖片字段
+    const updatedUser = await prisma.user.update({
+      where: { username: username },
+      data: {
+        avatar: base64Image
+      }
+    });
+
+    // 回應成功訊息
+    res.status(200).json({ message: 'Image uploaded successfully.', user: updatedUser });
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    // 返回錯誤的回應給前端
+    res.status(500).json({ message: 'Error uploading image.' });
+  }
+}
 

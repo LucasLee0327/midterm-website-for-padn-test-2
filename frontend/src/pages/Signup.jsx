@@ -1,10 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import services from "../services";
+import defPic from "./default-avatar.jpg";
 
 // you should design your register page and api
 function SignUpPage() {
   const [account, setAccount] = useState({ username: "", password: ""});
   const [message, setMessage] = useState("");
+  const [defaultAvatarBase64, setDefaultAvatarBase64] = useState(null);
+
+  useEffect(() => {
+    // 取得 default-picture.jpg 並轉換為 Blob 對象
+    fetch("./default-picture.jpg")
+      .then((response) => response.blob())
+      .then((blob) => {
+        // 將 Blob 轉換為 base64 格式
+        const reader = new FileReader();
+        reader.onload = () => {
+          setDefaultAvatarBase64(reader.result);
+        };
+        reader.readAsDataURL(blob);
+      })
+      .catch((error) => {
+        console.error("Error fetching default avatar:", error);
+      });
+  }, []);
 
   /** @type {React.ChangeEventHandler<HTMLInputElement>} */
   const handleTextInputChange = ({ target: { name, value } }) => {
@@ -18,7 +37,11 @@ function SignUpPage() {
 
   /** @type {React.FormEventHandler<HTMLFormElement>} */
   const handleFormSubmit = (event) => {
-    services.user.createOne({ username: account.username, password: account.password }).then((data) => {
+    if (!defaultAvatarBase64) {
+      console.error("Default avatar image not loaded.");
+      return;
+    }
+    services.user.createOne({ username: account.username, password: account.password, avatar: defaultAvatarBase64 }).then((data) => {
       setMessage("Account created!");
     });
     setAccount({ username: "", password: "" });

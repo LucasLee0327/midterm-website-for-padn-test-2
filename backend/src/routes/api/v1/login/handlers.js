@@ -5,7 +5,6 @@ import { prisma } from "../../../../adapters.js";
  * @param {import('express').Response} res
  */
 export async function loginCheck(req, res) {
-    console.log('api login');
     const { username, password } = req.body;
   
     // 在資料庫中查找與提供的帳號相匹配的用戶
@@ -15,6 +14,8 @@ export async function loginCheck(req, res) {
     if (user && user.password === password) {
       // 登入成功，返回用戶資料
       req.session.username = username;
+      req.session.isLoggedIn = true;
+
       return res.status(200).json({ isLoggedIn: true });
     } else {
       // 登入失敗，返回錯誤訊息
@@ -30,7 +31,6 @@ export async function logoutCheck(req, res) {
       return res.status(500).json({ isLoggedIn: true });
     } else {
       // 登出成功，重定向到首頁或其他目標頁面
-      console.log('api logout');
       return res.status(200).json({ isLoggedIn: false });
     }
   });

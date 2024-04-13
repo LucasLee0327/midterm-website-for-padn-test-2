@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext, AuthProvider } from '../AuthContext';
 
@@ -31,16 +31,17 @@ function LoginPage() {
         };
         try {
             await login(credentials);
-            if (isLoggedIn) {
-                navigate('/');
-            } else {
-                setError("Invalid username or password!");
-            }
-            // navigate('/');
         } catch(error) {
             setError("Invalid username or password!");
         }
     };
+
+    useEffect(() => {
+        if (isLoggedIn) {
+          console.log("logged in!")
+          navigate('/');
+        }
+    }, [isLoggedIn, navigate]);
 
     return (
         <>
@@ -113,34 +114,12 @@ function LoginPage() {
 export default LoginPage
 
 
-//    const [credential, setCredential] = useState({ username: "", password: ""});
-//    const [loggedIn, setLoggedIn] = useState(false);
-//    const [error, setError] = useState("");
-
-//    /** @type {React.ChangeEventHandler<HTMLInputElement>} */
-//    const handleTextInputChange = ({ target: { name, value } }) => {
-        // const { name, value } = event.target
-        // obj = { ...prev }; obj[name] = value
-//        setCredential((prev) => ({
-//        ...prev,
-//        [name]: value,
-//        }));
-//    };
-
-//    /** @type {React.FormEventHandler<HTMLFormElement>} */
-//    const handleFormSubmit = async(event) => {
-//        event.preventDefault();
-//        try {
-            // 發送登入請求給後端
-//            const { username, password } = credential;
-//            await services.auth.login({ username: username, password: password });
-            // 登入成功後導向首頁
-//            setLoggedIn(true);
-//        } catch (error) {
-//        setError(error.message);
-//        }
-//    };
-
-//    if(loggedIn) {
-//        return <Navigate to="/" />;
-//    }
+/*
+if (isLoggedIn) {
+                console.log("logged in!")
+                navigate('/');
+            } else {
+                console.log("Not logged in!")
+                setError("Invalid username or password!");
+            }
+*/

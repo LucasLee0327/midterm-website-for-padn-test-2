@@ -27,7 +27,6 @@ export default function RootLayout() {
   : [
       { name: 'Home', href: '/' },
       { name: 'About', href: '/about' },
-      { name: 'Chatboard', href: '/Chatboard' },
       { name: 'Login', href: '/Login' },
       { name: 'Sign up', href: '/Signup' },
       // 其他未登入時需要顯示的連結

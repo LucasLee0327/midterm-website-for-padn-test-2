@@ -1,12 +1,23 @@
 import React, { Component } from "react";
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext, AuthProvider } from '../AuthContext';
 
 function LogoutPage() {
     const { logout } = useContext(AuthContext);
+    const authContext = useContext(AuthContext);
+    const isLoggedIn = authContext? authContext.isLoggedIn : false
+
     const [error, setError] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // 监听 isLoggedIn 的变化
+        if (!isLoggedIn) {
+            // 如果未登录，跳转到首页
+            navigate('/');
+        }
+    }, [isLoggedIn, navigate]);
 
     const handleLogout = async () => {
         try {

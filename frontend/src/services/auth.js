@@ -6,9 +6,12 @@ export const auth = {
     return { isLoggedIn };
   },
   async logout() {
-    console.log('auth')
     await api.get("/login");
     return { isLoggedIn: false };
+  },
+  async statusOK() {
+    const { data: { sessionStatus } } = await api.get("/session");
+    return { sessionStatus };
   },
   async getCsrf() {
     const {
