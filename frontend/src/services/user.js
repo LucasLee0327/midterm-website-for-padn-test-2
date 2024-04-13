@@ -20,5 +20,17 @@ export const user = {
   async uploadImage({ avatar }){
     const { data } = await api.post("/users/profile", { avatar });
     return data;
+  },
+  async getAllMess() {
+    const { data } = await api.get("/posts");
+    return data;
+  },
+  async poMessage(messageData) {
+    const { data } = await api.post("/posts", messageData);
+    return data;
+  }, 
+  async delMessage(messageId) {
+    const { data } = await api.delete(`/posts/${messageId}`);
+    return data;
   }
 };
