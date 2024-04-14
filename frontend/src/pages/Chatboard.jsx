@@ -6,6 +6,25 @@ import services from "../services";
 function Chatboard() {
     const [textInput, setTextInput] = useState({ content: '' });
     const [comments, setComments] = useState([]);
+    const [username, setUsername] = useState('');
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await services.user.getName();
+                if (response) {
+                    const name = response.Username;
+                    setUsername(name);
+                } else {
+                    console.error('Error fetching user data: Invalid response format');
+                }
+            } catch (error) {
+                console.error('Error fetching username:', error);
+            }
+        }
+
+        fetchData();
+    }, []);
 
     /** @type {React.ChangeEventHandler<HTMLInputElement>} */
     const handleTextInputChange = ({ target: { name, value } }) => {
@@ -75,7 +94,9 @@ function Chatboard() {
                                     <img src={comment.author.avatar} alt="Avatar" className="w-10 h-10 rounded-full" />
                                     <p className="text-xl font-semibold text-gray-900 title-font mb-2">{comment.author.username}</p>                                                                                                                
                                     <p className="leading-relaxed">{comment.content}</p>
-                                    <button className="text-sm text-red-500 mt-2" onClick={() => handleDelete(comment.id)}>删除留言</button>
+                                    { username === comment.author.username && (
+                                        <button className="text-sm text-red-500 mt-2" onClick={() => handleDelete(comment.id)}>删除留言</button>
+                                    )}                                   
                                 </div>
                             ))}
                         </div>

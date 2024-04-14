@@ -11,7 +11,6 @@ export async function getAllMessages(req, res) {
                author: true // 包含作者的完整資訊
            }
         });
-        console.log(messages)
         res.status(200).json(messages);
     } catch (error) {
         console.error("Error fetching messages:", error);
@@ -47,13 +46,24 @@ export async function poMessage(req, res) {
 
 export async function delMessage(req, res) {
     try {
-       const messageId = parseInt(req.params.id);
-       await prisma.message.delete({
-          where: { id: messageId }
-       });
-       res.status(204).end();
+        const messageId = parseInt(req.params.id);
+        const username = req.session.username; // 從會話中獲取當前用戶名稱
+        const message = await prisma.message.findUnique({
+            where: { id: messageId },
+            include: { author: true } // 包含留言作者的完整信息
+        });
+        if (!message) {
+            return res.status(404).json({ error: "Message not found" });
+        }
+        if (message.author.username !== username) {
+            return res.status(403).json({ error: "You are not authorized to delete this message" });
+        }
+        await prisma.message.delete({
+            where: { id: messageId }
+        });
+        res.status(204).end();
     } catch (error) {
-       console.error("Error deleting message:", error);
-       res.status(500).json({ error: "Could not delete message" });
+        console.error("Error deleting message:", error);
+        res.status(500).json({ error: "Could not delete message" });
     }
- }
+}
