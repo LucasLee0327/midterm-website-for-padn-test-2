@@ -18,16 +18,20 @@ export async function poMessage(req, res) {
    try {
       const { content } = req.body;
       const username = req.session.username; // 从会话中获取用户ID
-      const user = await prisma.user.findUnique({ where: { username: username }, select: { username: true, avatar: true } }); // 查询用户信息
+      const user = await prisma.user.findUnique({ where: { username: username }, select: { id: true, username: true, avatar: true } }); // 查询用户信息
       if (!user) {
          return res.status(404).json({ error: "User not found" });
       }
       const createdMessage = await prisma.message.create({
-         data: {
-            author: user.username, // 使用用户名作为留言作者
+        data: {
             content,
-            avatar: user.avatar // 将用户头像作为留言头像
-         }
+            author: {
+               connect: { id: user.id } // 使用用戶ID作為留言作者
+            }
+        },
+        include: {
+            author: true // 包含作者的完整資訊
+        }
       });
       res.status(201).json(createdMessage);
    } catch (error) {
