@@ -8,5 +8,6 @@
     "start": "cd backend && yarn start",
     "build": "cd frontend && yarn build",
     "install:all": "cd frontend && yarn install --production=false && cd ../backend && yarn"
-  }
+  },
+  "repository": "https://github.com/LucasLee0327/midterm-website-for-padn-test-2.git"
 }
