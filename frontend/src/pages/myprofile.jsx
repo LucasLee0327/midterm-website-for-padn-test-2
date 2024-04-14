@@ -6,6 +6,7 @@ function myprofile() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [username, setUsername] = useState('');
   const [avatar, setAvatar] = useState('');
+  const allowedTypes = ['image/jpeg', 'image/png'];
 
   useEffect(() => {
     async function fetchUserData() {
@@ -42,6 +43,12 @@ function myprofile() {
       return;
     }
 
+    // 檢查檔案類型是否為 JPEG 或 PNG
+    if (!allowedTypes.includes(selectedFile.type)) {
+      alert('Please select a JPEG or PNG file.');
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = async (event) => {
       const base64Image = event.target.result;
@@ -67,7 +74,7 @@ function myprofile() {
           <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">{username}</h1>
           <div className="flex justify-center">
             <form onSubmit={handleSubmit}>
-              <input type="file" onChange={handleFileChange} accept="image/jpg, image/jpeg, image/png" />
+              <input type="file" onChange={handleFileChange} accept="image/jpeg, image/png" />
               <button type="submit" className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Upload</button>
             </form>
           </div>

@@ -1,4 +1,5 @@
 import { prisma } from "../../../../adapters.js";
+import { fileTypeFromBuffer } from 'file-type';
 
 export async function getAllUsers(req, res) {
   const allUsers = await prisma.user.findMany();
@@ -51,6 +52,14 @@ export async function uploadAvatar(req, res) {
     const user = await prisma.user.findUnique({ where: { username: username } });
     if (!user) {
       return res.status(404).json({ message: 'User not found.' });
+    }
+
+    // 檢查檔案類型是否為 JPEG 或 PNG
+    const base64WithoutHeader = base64Image.substring(base64Image.indexOf(',') + 1);
+    const buffer = Buffer.from(base64WithoutHeader, 'base64');
+    const type = await fileTypeFromBuffer(buffer);
+    if (!type || (type.mime !== 'image/jpeg' && type.mime !== 'image/png')) {
+      return res.status(400).json({ message: 'Please upload a JPEG or PNG image.' });
     }
 
     // 更新使用者的圖片字段
