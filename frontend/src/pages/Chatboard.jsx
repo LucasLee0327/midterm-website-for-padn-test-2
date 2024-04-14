@@ -72,8 +72,8 @@ function Chatboard() {
                         <div className="py-8 justify-start">
                             {comments.map(comment => (
                                 <div key={comment.id} className="text-left mb-4 bg-blue-100 p-4 rounded-lg">
-                                    <p className="text-xl font-semibold text-gray-900 title-font mb-2">{comment.author}</p>
-                                    <img src={comment.avatar} alt="Avatar" className="w-10 h-10 rounded-full" />
+                                    <img src={comment.author.avatar} alt="Avatar" className="w-10 h-10 rounded-full" />
+                                    <p className="text-xl font-semibold text-gray-900 title-font mb-2">{comment.author.username}</p>                                                                                                                
                                     <p className="leading-relaxed">{comment.content}</p>
                                     <button className="text-sm text-red-500 mt-2" onClick={() => handleDelete(comment.id)}>删除留言</button>
                                 </div>

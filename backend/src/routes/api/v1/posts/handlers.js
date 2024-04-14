@@ -6,11 +6,16 @@ import { prisma } from "../../../../adapters.js";
  */
 export async function getAllMessages(req, res) {
     try {
-       const messages = await prisma.message.findMany();
-       res.status(200).json(messages);
+        const messages = await prisma.message.findMany({
+           include: {
+               author: true // 包含作者的完整資訊
+           }
+        });
+        console.log(messages)
+        res.status(200).json(messages);
     } catch (error) {
-       console.error("Error fetching messages:", error);
-       res.status(500).json({ error: "Could not fetch messages" });
+        console.error("Error fetching messages:", error);
+        res.status(500).json({ error: "Could not fetch messages" });
     }
 }
 
