@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://lucaslee0327.github.io/midterm-website-for-padn-test-2/",
+        target: "https://lucaslee0327.github.io/midterm-website-for-padn-test-2",
         changeOrigin: true,
       },
     },
